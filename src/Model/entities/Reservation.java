@@ -14,7 +14,7 @@ public class Reservation {
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     public Reservation(){}
-    public Reservation(Date checkoutDate, Date checkinDate, Integer roomNumber) throws DomainException {
+    public Reservation(Date checkoutDate, Date checkinDate, Integer roomNumber){
         if (checkoutDate.before(checkinDate)){
             throw new DomainException("A data de check-out não pode ser anterior à data de check-in.");
         }
@@ -52,7 +52,7 @@ public class Reservation {
         return (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
 
-    public void updateDates(Date checkinDate, Date checkoutDate) throws DomainException {
+    public void updateDates(Date checkinDate, Date checkoutDate) {
 
         if (checkinDate == null || checkoutDate == null){
             throw new DomainException("As datas de check-in e check-out não podem ser nulas.");
