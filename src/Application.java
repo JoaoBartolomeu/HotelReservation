@@ -1,4 +1,5 @@
 import Model.entities.Reservation;
+import Model.exceptions.DomainException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +33,7 @@ public class Application {
             System.out.println(res);
         }catch (ParseException e){
             System.out.println("Invalid Date Format");
-        }catch (IllegalArgumentException e){
+        }catch (DomainException e){
             System.out.println("Error in Reservation " + e.getMessage());
         }
         sc.close();
