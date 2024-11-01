@@ -35,6 +35,8 @@ public class Application {
             System.out.println("Invalid Date Format");
         }catch (DomainException e){
             System.out.println("Error in Reservation " + e.getMessage());
+        }catch (RuntimeException e){
+            System.out.println("Unexpected error");
         }
         sc.close();
     }
