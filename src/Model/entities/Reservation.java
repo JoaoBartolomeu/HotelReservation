@@ -1,5 +1,7 @@
 package Model.entities;
 
+import Model.exceptions.DomainException;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -12,7 +14,10 @@ public class Reservation {
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     public Reservation(){}
-    public Reservation(Date checkoutDate, Date checkinDate, Integer roomNumber) {
+    public Reservation(Date checkoutDate, Date checkinDate, Integer roomNumber) throws DomainException {
+        if (checkoutDate.before(checkinDate)){
+            throw new DomainException("A data de check-out não pode ser anterior à data de check-in.");
+        }
         this.checkoutDate = checkoutDate;
         this.checkinDate = checkinDate;
         this.roomNumber = roomNumber;
@@ -43,17 +48,18 @@ public class Reservation {
     }
 
     public Integer duration(){
-        if (checkinDate == null || checkoutDate == null){
-            throw new IllegalArgumentException("As datas de check-in e check-out não podem ser nulas.");
-        }
-        if (checkoutDate.before(checkinDate)){
-            throw new IllegalArgumentException("A data de check-out não pode ser anterior à data de check-in.");
-        }
         long diffInMillies = checkoutDate.getTime() - checkinDate.getTime();
         return (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
 
-    public void updateDates(Date checkinDate, Date checkoutDate){
+    public void updateDates(Date checkinDate, Date checkoutDate) throws DomainException {
+
+        if (checkinDate == null || checkoutDate == null){
+            throw new DomainException("As datas de check-in e check-out não podem ser nulas.");
+        }
+        if (checkoutDate.before(checkinDate)){
+            throw new DomainException("A data de check-out não pode ser anterior à data de check-in.");
+        }
         this.checkoutDate = checkoutDate;
         this.checkinDate = checkinDate;
     }
